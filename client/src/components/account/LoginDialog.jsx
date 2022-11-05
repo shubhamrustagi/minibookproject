@@ -1,6 +1,8 @@
+import { useContext } from "react";
 import { Dialog, Box, Typography, List, ListItem, styled } from "@mui/material";
 
 import { qrCodeImage } from "../../constants/data";
+import { AccountContext } from "../../context/AccountProvider";
 
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -32,7 +34,7 @@ const StyledList = styled(List)`
     padding: 0;
     margin-top: 15px;
     font-size: 18px;
-    line-height: 28px;
+    line-height: 30px;
     color: #3b4a54;
   }
 `;
@@ -42,13 +44,15 @@ const dialogStyle = {
   width: "47%",
   maxWidth: "100%",
   maxHeight: "100%",
-  boxShadow: "none",
+  boxShadow: "none 2px 9px ",
   overFlow: "hidden",
+  backgroundColor: "none",
 };
 const LoginDialog = () => {
+  const { setAccount } = useContext(AccountContext);
   const onLoginSuccess = (res) => {
     const decoded = jwt_decode(res.credential);
-    console.log(decoded);
+    setAccount(decoded);
   };
 
   const onLoginError = (res) => {
@@ -73,7 +77,8 @@ const LoginDialog = () => {
             style={{
               position: "absolute",
               top: "50%",
-              transform: "translateX(50%)",
+              transform: "translateX(19%)",
+              height: "20px",
             }}
           >
             <GoogleLogin onSuccess={onLoginSuccess} onError={onLoginError} />
