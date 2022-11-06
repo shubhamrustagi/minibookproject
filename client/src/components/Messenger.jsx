@@ -9,6 +9,15 @@ const Component = styled(Box)`
   height: 100vh;
   background: #f0f2f5;
 `;
+const ChatComponent = styled(Box)`
+  height: 100vh;
+  background: rgb(231, 228, 223);
+  background: linear-gradient(
+    180deg,
+    rgba(231, 228, 223, 1) 0%,
+    rgba(209, 215, 219, 1) 100%
+  );
+`;
 const Header = styled(AppBar)`
   height: 125px;
   background-color: #00a884;
@@ -22,24 +31,24 @@ const LoginHeader = styled(AppBar)`
 const Messenger = () => {
   const { account } = useContext(AccountContext);
 
-  return (
-    <Component>
-      {account ? (
-        <>
-          <Header>
-            <Toolbar></Toolbar>
-          </Header>
-          <ChatDialog />
-        </>
-      ) : (
-        <>
-          <LoginHeader>
-            <Toolbar></Toolbar>
-          </LoginHeader>
-          <LoginDialog />
-        </>
-      )}
-    </Component>
+  return account ? (
+    <>
+      <ChatComponent>
+        <Header>
+          <Toolbar></Toolbar>
+        </Header>
+        <ChatDialog />
+      </ChatComponent>
+    </>
+  ) : (
+    <>
+      <Component>
+        <LoginHeader>
+          <Toolbar></Toolbar>
+        </LoginHeader>
+        <LoginDialog />
+      </Component>
+    </>
   );
 };
 
