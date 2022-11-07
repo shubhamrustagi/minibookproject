@@ -43,6 +43,7 @@ const InfoDrawer = ({ open, setOpen }) => {
       onClose={handleClose}
       PaperProps={{ sx: drawerStyle }}
       style={{ zIndex: 1500 }}
+      hideBackdrop={true}
     >
       <Header>
         <ArrowBack onClick={() => setOpen(false)} />

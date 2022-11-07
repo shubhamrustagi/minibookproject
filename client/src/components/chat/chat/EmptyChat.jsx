@@ -6,10 +6,10 @@ const Component = styled(Box)`
   background: #f8f9fa;
   padding: 30px 0;
   text-align: center;
-  height: 100vh;
+  height: 89.8vh;
 `;
 const Container = styled(Box)`
-  padding: 0 200px;
+  padding: 150px 200px 0;
 `;
 
 const Image = styled("img")({
