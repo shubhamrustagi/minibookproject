@@ -30,13 +30,18 @@ const ClipIcon = styled(AttachFile)`
   transform: rotate(45deg) scaleX(-1);
 `;
 // need to change color of placeholder here
-const Footer = () => {
+const Footer = ({ sendText, setValue, value }) => {
   return (
     <Container>
       <EmojiEmotionsOutlined />
       <ClipIcon />
       <Search>
-        <InputField placeholder="Type a message" />
+        <InputField
+          placeholder="Type a message"
+          onChange={(e) => setValue(e.target.value)}
+          onKeyPress={(e) => sendText(e)}
+          value={value}
+        />
       </Search>
       <Mic />
     </Container>
