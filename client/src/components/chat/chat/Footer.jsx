@@ -47,6 +47,7 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
       }
     };
     getImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   const onFileChange = (e) => {
