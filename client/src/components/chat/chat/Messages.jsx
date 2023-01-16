@@ -6,6 +6,7 @@ import { newMessage, getMessages } from "../../../service/api";
 //components
 import Footer from "./Footer";
 import Message from "./Message";
+
 const Wrapper = styled(Box)`
   background-image: url(${"https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png"});
   background-size: 50%;
@@ -25,11 +26,20 @@ const Messages = ({ person, conversation }) => {
   const [newMessageFlag, setNewMessageFlag] = useState(false);
   const [file, setFile] = useState();
   const [image, setImage] = useState("");
+  const [incomingMessage, setIncomingMessage] = useState(null);
 
   const scrollRef = useRef();
 
-  const { account } = useContext(AccountContext);
+  const { account, socket } = useContext(AccountContext);
 
+  useEffect(() => {
+    socket.current.on("getMessage", (data) => {
+      setIncomingMessage({
+        ...data,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
   useEffect(() => {
     const getMessageDetails = async () => {
       let data = await getMessages(conversation._id);
@@ -41,6 +51,12 @@ const Messages = ({ person, conversation }) => {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ transition: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    incomingMessage &&
+      conversation?.members?.includes(incomingMessage.senderId) &&
+      setMessages((prev) => [...prev, incomingMessage]);
+  }, [incomingMessage, conversation]);
 
   const sendText = async (e) => {
     const code = e.keyCode || e.which;
@@ -63,6 +79,8 @@ const Messages = ({ person, conversation }) => {
           text: image,
         };
       }
+
+      socket.current.emit("sendMessage", message);
 
       await newMessage(message);
 
